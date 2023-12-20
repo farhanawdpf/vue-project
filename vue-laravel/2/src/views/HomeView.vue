@@ -3,13 +3,35 @@
      <div class="container"> 
       <div class="card" style="width: 95%; padding:5%">
         <div class="card-header"> 
-         <h4> Employee
-          <router-link to="/about" class="btn btn-primary float-end">
-            Add Employee
-          </router-link>
-         </h4>
+          <h2>Employee Registation</h2>
+          <form @submit.prevent="save">
+          
+          <div class="form-group">
+              <label>Employee name</label>
+              <input type="text" v-model="employee.name" class="form-control"  placeholder="Employee name">
+          
+          </div>
+
+          <div class="form-group">
+              <label>Employee Address</label>
+              <input type="text" v-model="employee.address" class="form-control"  placeholder="Employee Address">
+          
+          </div>
+
+          
+          <div class="form-group">
+              <label>Mobile</label>
+              <input type="text" v-model="employee.mobile" class="form-control"  placeholder="Mobile">
+          
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+       
         </div> 
         <div class="card-body"> 
+          
+ 
           <table class="table table-success table-striped"> 
             <thead> 
               <tr> 
@@ -57,7 +79,13 @@ import axios from 'axios'
   name: 'home',
   data() {
     return {
-      result: []
+      result: {},
+        employee:{
+                   id: '',
+                   name: '',
+                   address: '',
+                   mobile: ''
+        }
     }
   },
   // created() { 
@@ -86,7 +114,67 @@ import axios from 'axios'
                         this.result = data;
                       }
                   );
-           }
-  },
- }
+           },
+           save()
+           {
+            if(this.employee.id == '')
+              {
+                this.saveData();
+              }
+              else
+              {
+                this.updateData();
+              }       
+ 
+           },
+           saveData()
+           {
+            axios.post("http://127.0.0.1:8000/api/save", this.employee)
+            .then(
+              ({data})=>{
+                alert("saveddddd");
+                this.EmployeeLoad();
+                 this.employee.name = '';
+                  this.employee.address = '',
+                  this.employee.mobile = ''
+                   this.id = ''
+              }
+            )
+ 
+           },
+           edit(employee)
+           {
+            this.employee = employee;
+           
+           },
+           updateData()
+           {
+              var editrecords = 'http://127.0.0.1:8000/api/update/'+ this.employee.id;
+              axios.put(editrecords, this.employee)
+              .then(
+                ({data})=>{
+                  this.employee.name = '';
+                  this.employee.address = '',
+                  this.employee.mobile = ''
+                  this.id = ''
+                  alert("Updated!!!");
+                  this.EmployeeLoad();
+                }
+              );
+ 
+           },
+ 
+           remove(employee){
+ 
+             var url = `http://127.0.0.1:8000/api/delete/${employee.id}`;
+ 
+ 
+             // var url = 'http://127.0.0.1:8000/api/delete/'+ employee.id;
+              axios.delete(url);
+              alert("Deleteddd");
+              this.EmployeeLoad();
+            }
+      }
+  }
+ 
 </script>
