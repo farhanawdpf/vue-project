@@ -132,8 +132,7 @@ import axios from 'axios'
             axios.post("http://127.0.0.1:8000/api/save", this.employee)
             .then(
               ({data})=>{
-                console.log(data);
-                // alert("saveddddd");
+                alert("saveddddd");
                 this.EmployeeLoad();
                  this.employee.name = '';
                   this.employee.address = '',

@@ -50,7 +50,7 @@ import { RouterLink, RouterView } from 'vue-router'
             </ul>
           </li>
           <li>
-              <a href="#">About</a>
+            <router-link to="/about" class="nav-link">about</router-link>
           </li>
           <li>
             <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
@@ -97,7 +97,7 @@ import { RouterLink, RouterView } from 'vue-router'
                   <a class="nav-link" href="#">Home</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="#">About</a>
+                <router-link to="/contact" class="nav-link">Contact</router-link>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="#">Portfolio</a>
