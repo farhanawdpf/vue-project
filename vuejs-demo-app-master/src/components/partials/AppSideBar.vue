@@ -54,22 +54,16 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p>
-                Forms
+                Employees
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../forms/general.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General Elements</p>
-                </a>
+                <router-link to="/about" class="nav-link">  <i class="far fa-circle nav-icon"></i>Add Employee</router-link>
               </li>
               <li class="nav-item">
-                <a href="../forms/advanced.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Advanced Elements</p>
-                </a>
+                <router-link to="/view_employee" class="nav-link">  <i class="far fa-circle nav-icon"></i>View Employee</router-link>
               </li>
               <li class="nav-item">
                 <a href="../forms/editors.html" class="nav-link">

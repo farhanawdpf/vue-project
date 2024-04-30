@@ -9,27 +9,51 @@
            
            <div class="form-group">
                <label>Name</label>
-               <input type="text" v-model="name" class="form-control"  placeholder="Employee name">
+               <input type="text" v-model="name" class="form-control"  placeholder="Employee name" required>
               <p style="color:red" v-if="nemError"> 
                 {{ nemError }}
               </p>
            
            </div>
+           <div class="form-group">
+            <label>Email</label>
+            <input type="text" v-model="name" class="form-control"  placeholder="Employee Email" re>
+              <p style="color:red" v-if="nemError"> 
+                {{ emailError }}
+              </p>
+           </div>
+           <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+           <div class="form-group">
+            <label>Email</label>
+            <input type="text" v-model="email" class="form-control"  placeholder="Employee name">
+              <p style="color:red" v-if="nemError"> 
+                {{ nemError }}
+              </p>
+           </div>
  
            <div class="form-group">
                <label>Employee Address</label>
-               <input type="text" v-model="address" class="form-control"  placeholder="Employee Address">
+               <input type="text" v-model="address" class="form-control"  placeholder="Employee Address" required>
            </div>
            <div class="form-group">
             <button @click="count++" type="submit" class="btn btn-primary">Increment</button>{{ count }}
             <button @click="count--" class="btn btn-primary">Decrement</button>
         </div>
- 
            <div class="form-group">
                <label>Mobile</label>
                <input type="text" v-model="mobile" class="form-control"  placeholder="Mobile">
-           
            </div>
+           <div class="form-group">
+            <label>Mobile</label>
+            <input type="text" v-model="mobile" class="form-control"  placeholder="Mobile">
+        
+        </div>
            
            <button type="submit" class="btn btn-primary">Save</button>
            </form>
@@ -54,7 +78,9 @@ import axios from 'axios'
           address: '',
           count:0,
           mobile: '',
-          nemError:'' 
+          nemError:'',
+          email: '',
+          emailError: ''
     }
   },
   // created() { 
@@ -77,21 +103,14 @@ watch:{
     } else{ 
       this.nemError ="";
     }
+  },
+  'email': function(){ 
+    if(this.email){ 
+
+    }
   }
 },
 
-
-// watch:{ 
-//   name(newValue, oldValue){ 
-//     if(newValue=="Falze"){
-//       alert("ok");
-//     }
-  
-//   },
-//   count(newValue){ 
-//       if(newValue==7) alert('not more then 7')
-//     }
-// },
   methods: {
     // getEmployees(){ 
     //   axios.get('http://127.0.0.1:8000/api/employees').then(res => { 
@@ -167,7 +186,6 @@ watch:{
  
              // var url = 'http://127.0.0.1:8000/api/delete/'+ id;
               axios.delete(url);
-              alert("Deleteddd");
               this.EmployeeLoad();
             }
       }
