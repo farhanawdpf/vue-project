@@ -8,21 +8,26 @@
            <form @submit.prevent="save">
            
            <div class="form-group">
-               <label>Employee name</label>
-               <input type="text" v-model="employee.name" class="form-control"  placeholder="Employee name">
+               <label>Name</label>
+               <input type="text" v-model="name" class="form-control"  placeholder="Employee name">
+              <p style="color:red" v-if="nemError"> 
+                {{ nemError }}
+              </p>
            
            </div>
  
            <div class="form-group">
                <label>Employee Address</label>
-               <input type="text" v-model="employee.address" class="form-control"  placeholder="Employee Address">
-           
+               <input type="text" v-model="address" class="form-control"  placeholder="Employee Address">
            </div>
+           <div class="form-group">
+            <button @click="count++" type="submit" class="btn btn-primary">Increment</button>{{ count }}
+            <button @click="count--" class="btn btn-primary">Decrement</button>
+        </div>
  
-           
            <div class="form-group">
                <label>Mobile</label>
-               <input type="text" v-model="employee.mobile" class="form-control"  placeholder="Mobile">
+               <input type="text" v-model="mobile" class="form-control"  placeholder="Mobile">
            
            </div>
            
@@ -30,50 +35,12 @@
            </form>
         
          </div> 
-         <div class="card-body"> 
-           
-  
-           <table class="table table-success table-striped"> 
-             <thead> 
-               <tr> 
-                 <th scope="col">ID</th>
-                 <th scope="col">Employee Name</th>
-                 <th scope="col">Address</th>
-                 <th scope="col">Mobile</th>
-                 <th scope="col">Option</th>
-               </tr>
-             </thead>
-             <tbody> 
- 
-               <tr v-for="employee in result" v-bind:key="employee.id">
-           
-                 <td>{{ employee.id }}</td>
-                 <td>{{ employee.name }}</td>
-                 <td>{{ employee.address }}</td>
-                 <td>{{ employee.mobile }}</td>
-                 <td>
-                   <button type="button" class="btn btn-warning" @click="edit(employee)">Edit</button>
-                   <button type="button" class="btn btn-danger"  @click="remove(employee)">Delete</button>
-                 </td>
-               </tr>
-               <!-- <tr v-for="(student,index) in this.students" :key="index"> 
-                 <td>{{ student.id }}</td>
-                <td> 
-                 <router-link to="/" class="btn btn-sucess">
-                   edit
-                 </router-link>
-                 <button type="button" class="btn btn-danger">Delete</button>
-                </td>
-                 
-               </tr> -->
-             </tbody>
-           </table>
-         </div>
  
        </div>
       </div>
    </main>
   </div>
+  
 </template>
 <script>
 import axios from 'axios'
@@ -82,12 +49,12 @@ import axios from 'axios'
   data() {
     return {
       result: {},
-        employee:{
-                   id: '',
-                   name: '',
-                   address: '',
-                   mobile: ''
-        }
+          id: '',
+          name: '',
+          address: '',
+          count:0,
+          mobile: '',
+          nemError:'' 
     }
   },
   // created() { 
@@ -98,6 +65,33 @@ import axios from 'axios'
     console.log("mounted() called.......");
   },
 
+watch:{ 
+  count(newValue, oldValue){ 
+   if(newValue>oldValue && newValue==5){ 
+    alert("Danger Point");
+   }
+  },
+  'name': function(){
+    if(this.name.length <7){
+      this.nemError ="Name must be at least 7 characters long";
+    } else{ 
+      this.nemError ="";
+    }
+  }
+},
+
+
+// watch:{ 
+//   name(newValue, oldValue){ 
+//     if(newValue=="Falze"){
+//       alert("ok");
+//     }
+  
+//   },
+//   count(newValue){ 
+//       if(newValue==7) alert('not more then 7')
+//     }
+// },
   methods: {
     // getEmployees(){ 
     //   axios.get('http://127.0.0.1:8000/api/employees').then(res => { 
@@ -119,7 +113,7 @@ import axios from 'axios'
            },
            save()
            {
-            if(this.employee.id == '')
+            if(this.id == '')
               {
                 this.saveData();
               }
@@ -136,9 +130,9 @@ import axios from 'axios'
               ({data})=>{
                 alert("saveddddd");
                 this.EmployeeLoad();
-                 this.employee.name = '';
-                  this.employee.address = '',
-                  this.employee.mobile = ''
+                 this.name = '';
+                  this.address = '',
+                  this.mobile = ''
                    this.id = ''
               }
             )
@@ -151,13 +145,13 @@ import axios from 'axios'
            },
            updateData()
            {
-              var editrecords = 'http://127.0.0.1:8000/api/update/'+ this.employee.id;
+              var editrecords = 'http://127.0.0.1:8000/api/update/'+ this.id;
               axios.put(editrecords, this.employee)
               .then(
                 ({data})=>{
-                  this.employee.name = '';
-                  this.employee.address = '',
-                  this.employee.mobile = ''
+                  this.name = '';
+                  this.address = '',
+                  this.mobile = ''
                   this.id = ''
                   alert("Updated!!!");
                   this.EmployeeLoad();
@@ -168,10 +162,10 @@ import axios from 'axios'
  
            remove(employee){
  
-             var url = `http://127.0.0.1:8000/api/delete/${employee.id}`;
+             var url = `http://127.0.0.1:8000/api/delete/${id}`;
  
  
-             // var url = 'http://127.0.0.1:8000/api/delete/'+ employee.id;
+             // var url = 'http://127.0.0.1:8000/api/delete/'+ id;
               axios.delete(url);
               alert("Deleteddd");
               this.EmployeeLoad();
