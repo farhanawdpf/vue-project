@@ -24,7 +24,9 @@
               <input type="text" v-model="employee.mobile" class="form-control"  placeholder="Mobile">
           
           </div>
-          
+          <h1>Todo List</h1>
+          <input type="text">
+          {{ booklist }}
           <button type="submit" class="btn btn-primary">Save</button>
           </form>
        
@@ -95,7 +97,11 @@ import axios from 'axios'
     this.getEmployees();
     console.log("mounted() called.......");
   },
-
+computed:{ 
+  booklist(){ 
+    return this.$store.state.booklist
+  }
+},
   methods: {
     // getEmployees(){ 
     //   axios.get('http://127.0.0.1:8000/api/employees').then(res => { 
@@ -106,7 +112,7 @@ import axios from 'axios'
 
     getEmployees()
            {
-                 var page = "http://127.0.0.1:8000/api/employees";
+                 var page = "https://vue-laravel.techfarhana.com/api/employees";
                  axios.get(page)
                   .then(
                       ({data})=>{
@@ -129,7 +135,7 @@ import axios from 'axios'
            },
            saveData()
            {
-            axios.post("http://127.0.0.1:8000/api/save", this.employee)
+            axios.post("https://vue-laravel.techfarhana.com/api/save", this.employee)
             .then(
               ({data})=>{
                 alert("saveddddd");
@@ -149,7 +155,7 @@ import axios from 'axios'
            },
            updateData()
            {
-              var editrecords = 'http://127.0.0.1:8000/api/update/'+ this.employee.id;
+              var editrecords = 'https://vue-laravel.techfarhana.com/api/update/'+ this.employee.id;
               axios.put(editrecords, this.employee)
               .then(
                 ({data})=>{
@@ -166,7 +172,7 @@ import axios from 'axios'
  
            remove(employee){
  
-             var url = `http://127.0.0.1:8000/api/delete/${employee.id}`;
+             var url = `https://vue-laravel.techfarhana.com/api/delete/${employee.id}`;
  
  
              // var url = 'http://127.0.0.1:8000/api/delete/'+ employee.id;
