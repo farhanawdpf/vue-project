@@ -9,7 +9,7 @@
           <div class="form-group">
               <label>Employee name</label>
               <input type="text" v-model="employee.name" class="form-control"  placeholder="Employee name">
-          
+                <p class="error" v-if="employeeError" style="color: crimson;"> {{ employeeError }}</p>
           </div>
 
           <div class="form-group">
@@ -24,16 +24,13 @@
               <input type="text" v-model="employee.mobile" class="form-control"  placeholder="Mobile">
           
           </div>
-          <h1>Todo List</h1>
-          <input type="text">
-          {{ booklist }}
+        
           <button type="submit" class="btn btn-primary">Save</button>
           </form>
        
         </div> 
         <div class="card-body"> 
           
- 
           <table class="table table-success table-striped"> 
             <thead> 
               <tr> 
@@ -93,6 +90,15 @@ import axios from 'axios'
   // created() { 
   //       this.getEmployees();
   //   },
+  watch: { 
+    'employee.name': function(){ 
+      if(this.employee.name.length<5){ 
+        this.employeeError ="Name must be at least 5 charecter long.";
+      }else{ 
+        this.employeeError ="";
+      }
+    }
+  },
   mounted(){ 
     this.getEmployees();
     console.log("mounted() called.......");
@@ -112,7 +118,7 @@ computed:{
 
     getEmployees()
            {
-                 var page = "https://vue-laravel.techfarhana.com/api/employees";
+                 var page = "http://127.0.0.1:8000/api/employees";
                  axios.get(page)
                   .then(
                       ({data})=>{
@@ -135,7 +141,7 @@ computed:{
            },
            saveData()
            {
-            axios.post("https://vue-laravel.techfarhana.com/api/save", this.employee)
+            axios.post("http://127.0.0.1:8000/api/save", this.employee)
             .then(
               ({data})=>{
                 alert("saveddddd");
@@ -155,7 +161,7 @@ computed:{
            },
            updateData()
            {
-              var editrecords = 'https://vue-laravel.techfarhana.com/api/update/'+ this.employee.id;
+              var editrecords = 'http://127.0.0.1:8000/api/update/'+ this.employee.id;
               axios.put(editrecords, this.employee)
               .then(
                 ({data})=>{
@@ -172,7 +178,7 @@ computed:{
  
            remove(employee){
  
-             var url = `https://vue-laravel.techfarhana.com/api/delete/${employee.id}`;
+             var url = `http://127.0.0.1:8000/api/delete/${employee.id}`;
  
  
              // var url = 'http://127.0.0.1:8000/api/delete/'+ employee.id;
