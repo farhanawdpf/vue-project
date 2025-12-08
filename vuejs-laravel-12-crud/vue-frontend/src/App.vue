@@ -4,14 +4,16 @@ export default {
     data() {
         return {
             tasks: [],
+            newCategory: {
+                title: "",
+                description: ""
+            },
         };
     },
 
     mounted() {
         this.getCategory();
     },
-
-
     methods: {
         getCategory() {
             axios.get('http://127.0.0.1:8000/api/category')
@@ -21,6 +23,33 @@ export default {
                 })
 
         },
+        // create category
+        async createCategory() {
+            const res = await axios.post("http://127.0.0.1:8000/api/category", this.newCategory);
+            this.tasks.unshift(res.data.data);
+            this.newCategory = {
+                title: "",
+                description: ""
+            };
+        },
+
+        // createCategory() {
+        //     axios.post("http://127.0.0.1:8000/api/category", this.newCategory)
+        //         .then((response) => {
+        //             this.newCategory = {
+        //                 title: "",
+        //                 description: ""
+        //             }
+        //             this.getCategory()
+        //             this.newCategory = {
+        //                 title: "",
+        //                 description: ""
+        //             }
+        //             console.log(response)
+
+        //         });
+        // },
+
     },
 };
 </script>
@@ -28,8 +57,13 @@ export default {
 <template>
 <div>
     <h1>Vue + Laravel API CRUD</h1>
-    <br>
-    <br>
+    <!-- Add category -->
+    <form @submit.prevent="createCategory">
+        <input v-model="newCategory.title" placeholder="Title" /><br />
+        <input v-model="newCategory.description" placeholder="Description" /><br />
+        <button>Add</button>
+    </form>
+
     <table class="table table-hover">
         <thead>
             <tr>
