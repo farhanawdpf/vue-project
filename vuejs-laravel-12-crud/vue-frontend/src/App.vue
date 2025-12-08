@@ -50,6 +50,11 @@ export default {
         //         });
         // },
 
+        async deleteTask(id) {
+            await axios.delete(`http://127.0.0.1:8000/api/category/${id}`);
+            this.tasks = this.tasks.filter((t) => t.id !== id);
+        },
+
     },
 };
 </script>
@@ -80,7 +85,7 @@ export default {
                 <td>{{ d.description }}</td>
                 <td width="150px">
                     <button class="btn btn-primary">Edit</button>
-                    <button class="btn btn-danger">Delete</button>
+                    <button class="btn btn-danger" @click="deleteTask(d.id)">Delete</button>
                 </td>
             </tr>
 
